@@ -1,17 +1,17 @@
-badge-up
-========
+# badge-up
 
-This is a simple library that generates SVG badges.
+[![npm](https://img.shields.io/npm/v/badge-up.svg?maxAge=2592000)](https://www.npmjs.com/package/badge-up)
+[![downloads](https://img.shields.io/npm/dt/badge-up.svg?maxAge=2592000)](https://www.npmjs.com/package/badge-up)
 
-Install
--------
+This is a simple library that generates SVG badges without Cairo.
+
+## Install
 
 `npm install badge-up`
 
-Usage
------
+## Usage
 
-Generating an SVG
+### Generating an SVG
 
 ```js
 
@@ -22,11 +22,4 @@ badge('batman', 'component', badge.colors.green, function (error, svg) {
 });
 ```
 
-Using the colors
-
-```js
-
-var badge = require('badge-up');
-
-var colors = badge.colors;
-```
+Produces: ![example](https://cdn.rawgit.com/yahoo/badge-up/master/test/testData/good.svg)
