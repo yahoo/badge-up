@@ -1,15 +1,16 @@
 {
   "name": "badge-up",
   "version": "2.0.0",
-  "description": "A module that produces hot badges",
+  "description": "A module that produces hot badges without the need of Cairo",
   "main": "index.js",
   "scripts": {
     "test": "jenkins-mocha"
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git@github.com:yahoo/badge-up.git"
   },
+  "bugs": "https://github.com/yahoo/badge-up/issues",
   "keywords": [
     "badge"
   ],
