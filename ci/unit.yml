@@ -1,0 +1,15 @@
+---
+platform: linux
+
+image: docker:///node#4.2.3
+
+inputs:
+- name: stinking-badges
+
+run:
+  path: sh
+  args:
+  - -exc
+  - |
+    npm install
+    npm test
