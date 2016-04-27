@@ -4,7 +4,7 @@ platform: linux
 image: docker:///node#4.2.3
 
 inputs:
-- name: stinking-badges
+  - name: stinking-badges
 
 run:
   path: sh
@@ -12,4 +12,4 @@ run:
   - -exc
   - |
     npm install
-    npm test
+    npm testg
