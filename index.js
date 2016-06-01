@@ -10,50 +10,8 @@ var fs = require('fs'),
     svgo = new SVGO(),
     dot = require('dot'),
     template = dot.template(fs.readFileSync(path.join(__dirname, 'templates', 'basic.svg'), 'utf-8')),
-    // Lookup values based on Verdana ttf of 11px
-    lookup = [0,25,25,25,25,25,25,25,0,23,0,25,25,0,25,25,25,25,25,25,25,25,25,
-        25,25,25,25,25,25,0,25,25,3,3,4,6,6,9,7,2,4,4,4,6,3,4,3,3,6,6,6,6,6,6,6,
-        6,6,6,3,3,6,6,6,6,11,7,7,8,8,7,7,8,8,3,5,7,6,9,8,8,7,8,8,7,7,8,7,10,7,7,
-        7,3,3,3,5,6,4,6,6,5,6,6,3,6,6,3,3,5,3,9,6,6,6,6,4,5,3,6,5,8,5,5,5,4,3,4,
-        6,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,
-        25,25,25,25,25,25,25,25,25,25,3,4,6,6,6,6,3,6,4,8,4,6,6,0,8,4,4,6,4,4,4,
-        6,6,3,4,4,4,6,9,9,9,7,7,7,7,7,7,7,10,8,7,7,7,7,3,3,3,3,8,8,8,8,8,8,8,6,
-        8,8,8,8,8,7,7,7,6,6,6,6,6,6,9,5,6,6,6,6,3,3,3,3,6,6,6,6,6,6,6,6,7,6,6,6,
-        6,5,6
-    ];
-
-/**
- * Return the size of the text
- *
- * @method measureText
- * @param  {String} text Text you want to measure
- * @return {Integer}     Size in pixels of the text
- */
-function measureText(text) {
-    var total = 0;
-
-    // Measure each letter and add padding between letters
-    text.split('').forEach(function (letter) {
-        total += 1 + lookup[letter.charCodeAt(0)] || 0;
-    });
-
-    // Add 10 extra pixels of padding
-    return 10 + total;
-}
-
-/**
- * Escape the string so that it doesn't break xml
- * @method escapeXml
- * @param  {String}  string Input String
- * @return {String}         XML Safe String
- */
-function escapeXml(string) {
-    return string.replace(/&/g, '&amp;')
-                 .replace(/</g, '&lt;')
-                 .replace(/>/g, '&gt;')
-                 .replace(/"/g, '&quot;')
-                 .replace(/'/g, '&apos;');
-}
+    v2 = require('./v2'),
+    utils = require('./utils');
 
 /**
  * Generates a SVG for pretty badges
@@ -67,15 +25,16 @@ function escapeXml(string) {
 module.exports = function badge (field1, field2, color, callback) {
     var data = {
             text: [
-                escapeXml(field1),
-                escapeXml(field2)
+                utils.escapeXml(field1),
+                utils.escapeXml(field2)
             ],
             widths: [
-                measureText(field1),
-                measureText(field2)
+                // Add 10 extra pixels of padding
+                utils.textWidth(field1) + 10,
+                utils.textWidth(field2) + 10
             ],
             colorA: '#555',
-            colorB: escapeXml(color)
+            colorB: utils.escapeXml(color)
         };
 
     // Run the SVG through SVGO.
@@ -103,3 +62,6 @@ module.exports.colors = {
     'lightgray': '#9F9F9F',
     'purple': '#400090'
 };
+
+// v2 API from v2.js
+module.exports.v2 = v2;

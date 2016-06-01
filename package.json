@@ -1,9 +1,10 @@
 {
   "name": "badge-up",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "A module that produces hot badges without the need of Cairo",
   "main": "index.js",
   "scripts": {
+    "lint": "jshint *.js test/*.js",
     "test": "jenkins-mocha"
   },
   "repository": {
@@ -18,21 +19,22 @@
   "author": "St. John Johnson <stjohn@yahoo-inc.com>",
   "contributors": [
     "Darren Matsumoto <bobafett@yahoo-inc.com>",
+    "Drew Folta <folta@yahoo-inc.com>",
     "Noah Katzman <nkatzman@yahoo-inc.com>",
     "Peter Peterson <petey@yahoo-inc.com>",
     "Robert Ames <rames@yahoo-inc.com>"
   ],
   "jshintConfig": {
-    "node": true,
-    "json": true
+    "node": true
   },
   "devDependencies": {
     "chai": "~1.9.1",
-    "jenkins-mocha": "~1.0.8",
-    "mockery": "~1.4.0",
+    "jenkins-mocha": "^2.6.0",
+    "jshint": "^2.9.2",
     "sinon": "~1.10.3"
   },
   "dependencies": {
+    "css-color-names": "~0.0.3",
     "dot": "~1.0.2",
     "svgo": "~0.4.5"
   }
