@@ -1,6 +1,6 @@
 {
   "name": "badge-up",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "A module that produces hot badges without the need of Cairo",
   "main": "index.js",
   "scripts": {
