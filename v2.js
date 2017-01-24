@@ -20,6 +20,22 @@ var colors = require('css-color-names'),
     DECENDER_HEIGHT         = 2,
     DEFAULT_LETTER_WIDTH    = 8;            // probably unicode, hard to guess width
 
+/**
+ * Validate and return appropriate color code from input string
+ * @method getColorCode
+ * @param  {String}   input  String to check for valid color code
+ */
+function getColorCode(input) {
+    if (input.match(/^[0-9a-f]{6}$/i)) {
+        return '#' + input.toLowerCase();
+    }
+
+    if (colors[input]) {
+        return colors[input];
+    }
+
+    return false;
+}
 
 function sectionsToData(sections) {
     var badgeData = {
@@ -43,13 +59,18 @@ function sectionsToData(sections) {
         sectionData.x = badgeData.width;
         sectionData.color = (s === 0 ? DEFAULT_COLOR_FIRST : DEFAULT_COLOR_REST);
         section.forEach(function(attribute) {
-            if (attribute.match(/^[0-9a-f]{6}$/i)) {
-                sectionData.color = '#' + attribute.toLowerCase();
-                return;
+
+            // stroke attribute `s{color}` as CSS color or color code in hex
+            var strokeAttribute = attribute.match(/^s\{(.*?)\}/i);
+            if (strokeAttribute && strokeAttribute.length > 0) {
+                if (getColorCode(strokeAttribute[1])) {
+                    sectionData.stroke = getColorCode(strokeAttribute[1]);
+                }
             }
-            if (colors[attribute]) {
-                sectionData.color = colors[attribute];
-                return;
+
+            // fill color attribute (without attribute qualifier) as CSS color or color code in hex
+            if (getColorCode(attribute)) {
+                sectionData.color = getColorCode(attribute);
             }
             // FUTURE -- text alignment `a{align}` lmr (only matters when multiline)
             // FUTURE -- font `f{font}` mainly for monospace (`fm`)
