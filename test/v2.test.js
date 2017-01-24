@@ -214,7 +214,7 @@ describe('v2.js', function() {
             var sections = [
                     'foo/far;fun',
                     [ 'bar\nbaz', 'orange'],
-                    [ 'mork "mindy"', 'olive'],
+                    [ 'mork "mindy"', 'olive', 's{white}'],
                     [ '<∀>', 'moccasin'],
                 ];
             v2(sections, function(err, svg) {
