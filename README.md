@@ -39,6 +39,8 @@ The following attributes are supported:
 
 * `{hex}{hex}{hex}{hex}{hex}{hex}` six hexadecimal characters or `{css-color-name}` a named CSS color,
     either of which is used to color the section
+* `s{{hex}{hex}{hex}{hex}{hex}{hex}}` six hexadecimal characters or `s{css-color-name}` a named CSS color,
+    either of which is used to color stroke the section, e.g. `s{d3d3d3}`
 
 The default color for the first section is `696969` and `d3d3d3` for subsequent sections.
 
@@ -49,7 +51,7 @@ var badge = require('badge-up');
 var sections = [
         'foo/far;fun',
         [ 'bar\nbaz', 'orange'],
-        [ 'mork "mindy"', 'olive'],
+        [ 'mork "mindy"', 'olive', 's{white}'],
         [ '<∀>', 'moccasin']
     ];
 badge.v2(sections, function (error, svg) {

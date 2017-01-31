@@ -23,7 +23,7 @@
   </defs>
   <g id="bg" mask="url(#round)">
 {{~ it.sections :sec }}
-    <rect x="{{=sec.x}}" width="{{=sec.width}}" height="{{=it.height}}" fill="{{=sec.color}}"/>
+    <rect x="{{=sec.x}}" width="{{=sec.width}}" height="{{=it.height}}" fill="{{=sec.color}}"{{? sec.stroke}} stroke="{{=sec.stroke}}"{{?}}/>
 {{~}}
     <rect width="{{=it.width}}" height="{{=it.height}}" fill="url(#smooth)"/>
   </g>

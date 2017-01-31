@@ -35,6 +35,20 @@ describe('v2.js', function() {
             assert.equal('#90ee90', have.sections[0].color);
             assert.equal('#ef03bb', have.sections[1].color);
         });
+        it('uses stroke attributes', function() {
+            var sections, have;
+            sections = ['foo', ['bar', 'd3d3d3', 's{ffffff}']];
+            have = v2.sectionsToData(sections);
+            assert.equal(null, have.sections[0].stroke);
+            assert.equal('#ffffff', have.sections[1].stroke);
+        });
+        it('ignores stroke attributes with invalid color', function() {
+            var sections, have;
+            sections = ['foo', ['bar', 'd3d3d3', 's{foobar}']];
+            have = v2.sectionsToData(sections);
+            assert.equal(null, have.sections[0].stroke);
+            assert.equal(null, have.sections[1].stroke);
+        });
         it('lays out two sections', function() {
             var sections, want, have;
             sections = ['foo', 'bar'];
@@ -200,12 +214,20 @@ describe('v2.js', function() {
             var sections = [
                     'foo/far;fun',
                     [ 'bar\nbaz', 'orange'],
-                    [ 'mork "mindy"', 'olive'],
+                    [ 'mork "mindy"', 'olive', 's{white}'],
                     [ '<∀>', 'moccasin'],
                 ];
             v2(sections, function(err, svg) {
                 assert.isUndefined(err);
                 assert.strictEqual(svg, getMock('v2-example'));
+                testDone();
+            });
+        });
+        it('renders stroke correctly', function(testDone) {
+            var sections = [ 'foo', ['bar', 'd3d3d3', 's{white}' ]];
+            v2(sections, function(err, svg) {
+                assert.isUndefined(err);
+                assert.strictEqual(svg, getMock('v2-foo-bar-stroke'));
                 testDone();
             });
         });
