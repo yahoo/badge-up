@@ -28,14 +28,15 @@
     "node": true
   },
   "devDependencies": {
-    "chai": "~1.9.1",
-    "jenkins-mocha": "^2.6.0",
+    "chai": "^3.5.0",
+    "coveralls": "^2.11.15",
+    "jenkins-mocha": "^4.1.0",
     "jshint": "^2.9.2",
-    "sinon": "~1.10.3"
+    "sinon": "^1.17.7"
   },
   "dependencies": {
     "css-color-names": "~0.0.3",
-    "dot": "~1.0.2",
-    "svgo": "~0.4.5"
+    "dot": "^1.1.1",
+    "svgo": "^0.7.2"
   }
 }

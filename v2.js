@@ -12,6 +12,8 @@ var colors = require('css-color-names'),
     SVGO = require('svgo'),
     svgo = new SVGO(),
     TEMPLATE = dot.template(fs.readFileSync(path.join(__dirname, 'templates', 'v2.svg'), 'utf-8')),
+    COLOR_REGEX             = /^[0-9a-f]{6}$/i,
+    STROKE_REGEX            = /^s\{(.+?)\}$/i,
     DEFAULT_COLOR_FIRST     = '#696969',    // dimgrey
     DEFAULT_COLOR_REST      = '#d3d3d3',    // lightgrey
     PAD_X                   = 5,
@@ -26,7 +28,7 @@ var colors = require('css-color-names'),
  * @param  {String}   input  String to check for valid color code
  */
 function getColorCode(input) {
-    if (input.match(/^[0-9a-f]{6}$/i)) {
+    if (COLOR_REGEX.test(input)) {
         return '#' + input.toLowerCase();
     }
 
@@ -59,13 +61,10 @@ function sectionsToData(sections) {
         sectionData.x = badgeData.width;
         sectionData.color = (s === 0 ? DEFAULT_COLOR_FIRST : DEFAULT_COLOR_REST);
         section.forEach(function(attribute) {
-
             // stroke attribute `s{color}` as CSS color or color code in hex
-            var strokeAttribute = attribute.match(/^s\{(.*?)\}/i);
-            if (strokeAttribute && strokeAttribute.length > 0) {
-                if (getColorCode(strokeAttribute[1])) {
-                    sectionData.stroke = getColorCode(strokeAttribute[1]);
-                }
+            var strokeAttribute = STROKE_REGEX.exec(attribute);
+            if (strokeAttribute) {
+                sectionData.stroke = getColorCode(strokeAttribute[1]) || null;
             }
 
             // fill color attribute (without attribute qualifier) as CSS color or color code in hex

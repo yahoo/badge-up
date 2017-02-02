@@ -1,0 +1,15 @@
+shared:
+  image: node:6
+
+jobs:
+  main:
+    steps:
+      - install: npm install
+      - test: npm test
+      - coverage: |
+          export CI_PULL_REQUEST=${SD_PULL_REQUEST}
+          export COVERALLS_SERVICE_NAME=screwdriver
+          cat ./artifacts/coverage/lcov.info | ./node_modules/.bin/coveralls
+    secrets:
+      # Uploading coverage information to coveralls
+      - COVERALLS_REPO_TOKEN
