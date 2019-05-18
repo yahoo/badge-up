@@ -27,3 +27,5 @@ node_modules
 artifacts/
 
 .nyc_output/
+
+package-lock.json
