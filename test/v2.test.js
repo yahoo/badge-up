@@ -202,6 +202,16 @@ describe('v2.js', function() {
                 testDone();
             });
         });
+        it('renders foo/bar correctly (returning Promise)', function(testDone) {
+            var sections = [ 'foo', 'bar' ];
+            v2(sections).then(function(svg) {
+                assert.strictEqual(svg, getMock('v2-foo-bar'));
+                testDone();
+            }).catch(function(err) {
+              assert.isOk(false);
+              testDone();
+            });
+        });
         it('renders a named color correctly', function(testDone) {
             var sections = [ 'foo', ['bar', 'lightgreen'] ];
             v2(sections, function(err, svg) {

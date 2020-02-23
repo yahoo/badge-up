@@ -23,6 +23,15 @@ describe('#index', function () {
         });
     });
 
+    it('should be able to create a badge (returning a Promise)', function (done) {
+        badge('batman', 'component', badge.colors.green).then(function (svg) {
+            assert.strictEqual(svg, getMock('good'));
+            done();
+        }).catch(function () {
+          assert.isOk(false);
+        });
+    });
+
     it('should be able to create a long badge', function (done) {
         badge('batmanandrobinforever', 'component', badge.colors.green, function (error, svg) {
             assert.isNull(error);
