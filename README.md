@@ -16,7 +16,7 @@ This is a simple library that generates SVG badges without Cairo.
 ## V1 Usage
 
 ```js
-var badge = require('badge-up');
+const badge = require('badge-up');
 badge('batman', 'component', badge.colors.green, function (error, svg) {
     // some callback
 });
@@ -27,6 +27,18 @@ Produces: ![example](https://cdn.rawgit.com/yahoo/badge-up/master/test/testData/
 The color argument can be a CSS color, or one of the specially named colors
 found in `badge.colors`.
 
+You can alternatively use the returned `Promise`:
+
+```js
+const badge = require('badge-up');
+(async () => {
+try {
+    const svg = await badge('batman', 'component', badge.colors.green);
+} catch (error) {
+    //
+}
+}());
+```
 
 ## V2 Usage
 
@@ -49,16 +61,36 @@ The default color for the first section is `696969` and `d3d3d3` for subsequent 
 Any section can have mulitple lines by putting newlines in its text.
 
 ```js
-var badge = require('badge-up');
-var sections = [
-        'foo/far;fun',
-        [ 'bar\nbaz', 'orange'],
-        [ 'mork "mindy"', 'olive', 's{white}'],
-        [ '<∀>', 'moccasin']
-    ];
+const badge = require('badge-up');
+const sections = [
+    'foo/far;fun',
+    [ 'bar\nbaz', 'orange'],
+    [ 'mork "mindy"', 'olive', 's{white}'],
+    [ '<∀>', 'moccasin']
+];
 badge.v2(sections, function (error, svg) {
     // some callback
 });
 ```
 
 Produces: ![example](https://cdn.rawgit.com/yahoo/badge-up/master/test/testData/v2-example.svg)
+
+You can also use the returned `Promise`:
+
+```js
+const badge = require('badge-up');
+const sections = [
+    'foo/far;fun',
+    [ 'bar\nbaz', 'orange'],
+    [ 'mork "mindy"', 'olive', 's{white}'],
+    [ '<∀>', 'moccasin']
+];
+
+(async () => {
+try {
+    const svg = await badge.v2(sections);
+} catch (error) {
+  //
+}
+}());
+```
