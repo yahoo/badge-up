@@ -10,7 +10,11 @@ var colors = require('css-color-names'),
     svgo = require('svgo'),
     utils = require('./utils'),
     SVGO = require('svgo'),
-    svgo = new SVGO(),
+    svgo = new SVGO({
+        plugins: [{
+            sortDefsChildren: false
+        }]
+    }),
     TEMPLATE = dot.template(fs.readFileSync(path.join(__dirname, 'templates', 'v2.svg'), 'utf-8')),
     COLOR_REGEX             = /^[0-9a-f]{6}$/i,
     STROKE_REGEX            = /^s\{(.+?)\}$/i,
