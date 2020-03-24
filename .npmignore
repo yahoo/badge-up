@@ -8,3 +8,4 @@ tests/
 docs/
 examples/
 Makefile
+.nyc_output
