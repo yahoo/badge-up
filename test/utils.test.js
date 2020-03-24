@@ -3,9 +3,6 @@ Copyright (c) 2016, Yahoo Inc.
 Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
 */
 
-/* Inline JSHint configuration for Mocha globals. */
-/* global describe, it, beforeEach, afterEach */
-
 var assert = require('chai').assert,
     utils = require('../utils');
 
