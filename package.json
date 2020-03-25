@@ -20,7 +20,8 @@
   },
   "bugs": "https://github.com/yahoo/badge-up/issues",
   "keywords": [
-    "badge"
+    "badge",
+    "yahoo"
   ],
   "license": "BSD-3-Clause",
   "author": "St. John Johnson <stjohn@yahoo-inc.com>",
