@@ -1,6 +1,6 @@
 {
   "name": "badge-up",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "A module that produces hot badges without the need of Cairo",
   "main": "index.js",
   "nyc": {
@@ -11,7 +11,8 @@
   },
   "scripts": {
     "lint": "jshint *.js test/*.js",
-    "test": "nyc --report-dir ./artifacts/coverage mocha --color true"
+    "test": "nyc --report-dir ./artifacts/coverage mocha --color true",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,12 @@
     "Peter Peterson <petey@yahoo-inc.com>",
     "Robert Ames <rames@yahoo-inc.com>"
   ],
+  "release": {
+    "debug": false,
+    "verifyConditions": {
+      "path": "./node_modules/semantic-release/src/lib/plugin-noop.js"
+    }
+  },
   "jshintConfig": {
     "node": true
   },
