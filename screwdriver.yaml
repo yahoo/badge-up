@@ -17,8 +17,8 @@ jobs:
   publish:
     requires: [main]
     template: screwdriver-cd/semantic-release
-      secrets:
-        # Publishing to NPM
-        - NPM_TOKEN
-        # Pushing tags to Git
-        - GH_TOKEN
+    secrets:
+      # Publishing to NPM
+      - NPM_TOKEN
+      # Pushing tags to Git
+      - GH_TOKEN
