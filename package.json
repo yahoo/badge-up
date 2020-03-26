@@ -18,6 +18,10 @@
     "type": "git",
     "url": "git@github.com:yahoo/badge-up.git"
   },
+  "homepage": "https://github.com/yahoo/badge-up",
+  "engines": {
+    "node": ">=10.0.0"
+  },
   "bugs": "https://github.com/yahoo/badge-up/issues",
   "keywords": [
     "badge",
