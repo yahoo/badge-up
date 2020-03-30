@@ -10,7 +10,7 @@
     ]
   },
   "scripts": {
-    "lint": "jshint *.js test/*.js",
+    "lint": "eslint .",
     "test": "nyc --report-dir ./artifacts/coverage mocha --color true",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
@@ -38,13 +38,10 @@
       "path": "./node_modules/semantic-release/src/lib/plugin-noop.js"
     }
   },
-  "jshintConfig": {
-    "node": true
-  },
   "devDependencies": {
     "chai": "^4.2.0",
     "coveralls": "^3.0.11",
-    "jshint": "^2.11.0",
+    "eslint": "^6.8.0",
     "mocha": "^7.1.1",
     "nyc": "^15.0.0",
     "sinon": "^9.0.1"

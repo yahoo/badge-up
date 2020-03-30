@@ -3,7 +3,6 @@ Copyright (c) 2016, Yahoo Inc.
 Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
 */
 
-/* jshint unused:false */
 var fs = require('fs'),
     path = require('path'),
     SVGO = require('svgo'),

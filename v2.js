@@ -7,7 +7,6 @@ var colors = require('css-color-names'),
     dot = require('dot'),
     fs = require('fs'),
     path = require('path'),
-    svgo = require('svgo'),
     utils = require('./utils'),
     SVGO = require('svgo'),
     svgo = new SVGO({

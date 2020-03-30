@@ -3,9 +3,6 @@ Copyright (c) 2016, Yahoo Inc.
 Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
 */
 
-/* Inline JSHint configuration for Mocha globals. */
-/* global describe, it, beforeEach, afterEach */
-
 var assert = require('chai').assert,
     fs = require('fs'),
     v2 = require('../v2');
@@ -207,7 +204,7 @@ describe('v2.js', function() {
             v2(sections).then(function(svg) {
                 assert.strictEqual(svg, getMock('v2-foo-bar'));
                 testDone();
-            }).catch(function(err) {
+            }).catch(function(/* err */) {
               assert.isOk(false);
               testDone();
             });
