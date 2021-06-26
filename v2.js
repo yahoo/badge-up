@@ -8,12 +8,7 @@ var colors = require('css-color-names'),
     fs = require('fs'),
     path = require('path'),
     utils = require('./utils'),
-    SVGO = require('svgo'),
-    svgo = new SVGO({
-        plugins: [{
-            sortDefsChildren: false
-        }]
-    }),
+    {optimize, extendDefaultPlugins} = require('svgo'),
     TEMPLATE = dot.template(fs.readFileSync(path.join(__dirname, 'templates', 'v2.svg'), 'utf-8')),
     COLOR_REGEX             = /^[0-9a-f]{6}$/i,
     STROKE_REGEX            = /^s\{(.+?)\}$/i,
@@ -100,12 +95,20 @@ function sectionsToData(sections) {
 }
 
 
-module.exports = function badge_v2(sections, callback) {
-    var raw = TEMPLATE(sectionsToData(sections));
-    return svgo.optimize(raw).then(function(optimized) {
-        if (callback) callback(undefined, optimized.data);
-        return optimized.data;
+module.exports = async function badge_v2(sections, callback) {
+    var raw = TEMPLATE(sectionsToData(sections))
+        // Due to https://github.com/svg/svgo/issues/1498
+        .replace(/&#(x3c|60);/gi, '&lt;')
+        .replace(/&#(x26|38);/gi, '&amp;');
+
+    const optimized = optimize(raw, {
+        plugins: extendDefaultPlugins([{
+            name: 'sortDefsChildren',
+            active: false
+        }])
     });
+    if (callback) callback(undefined, optimized.data);
+    return optimized.data;
 };
 
 
