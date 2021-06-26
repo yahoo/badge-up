@@ -5,8 +5,7 @@ Copyrights licensed under the New BSD License. See the accompanying LICENSE file
 
 var fs = require('fs'),
     path = require('path'),
-    SVGO = require('svgo'),
-    svgo = new SVGO(),
+    {optimize} = require('svgo'),
     dot = require('dot'),
     template = dot.template(fs.readFileSync(path.join(__dirname, 'templates', 'basic.svg'), 'utf-8')),
     v2 = require('./v2'),
@@ -21,7 +20,7 @@ var fs = require('fs'),
  * @param  {String}   color    Color text to pick
  * @param  {Function} callback Function to call when done (error, SVG)
  */
-module.exports = function badge (field1, field2, color, callback) {
+module.exports = async function badge (field1, field2, color, callback) {
     var data = {
             text: [
                 utils.escapeXml(field1),
@@ -37,10 +36,14 @@ module.exports = function badge (field1, field2, color, callback) {
         };
 
     // Run the SVG through SVGO.
-    return svgo.optimize(template(data)).then(function (object) {
-        if (callback) callback(null, object.data);
-        return object.data;
-    });
+    const object = optimize(
+        template(data)
+            // Due to https://github.com/svg/svgo/issues/1498
+            .replace(/&#(x3c|60);/gi, '&lt;')
+            .replace(/&#(x26|38);/gi, '&amp;')
+    );
+    if (callback) callback(null, object.data);
+    return object.data;
 };
 
 /**
