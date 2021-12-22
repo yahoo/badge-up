@@ -3,7 +3,7 @@ Copyright (c) 2016, Yahoo Inc.
 Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
 */
 
-var fs = require('fs'),
+const fs = require('fs'),
     path = require('path'),
     {optimize} = require('svgo'),
     dot = require('dot'),
@@ -21,7 +21,7 @@ var fs = require('fs'),
  * @param  {Function} callback Function to call when done (error, SVG)
  */
 module.exports = async function badge (field1, field2, color, callback) {
-    var data = {
+    const data = {
             text: [
                 utils.escapeXml(field1),
                 utils.escapeXml(field2)
