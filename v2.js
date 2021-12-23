@@ -3,17 +3,12 @@ Copyright (c) 2016, Yahoo Inc.
 Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
 */
 
-var colors = require('css-color-names'),
+const colors = require('css-color-names'),
     dot = require('dot'),
     fs = require('fs'),
     path = require('path'),
     utils = require('./utils'),
-    SVGO = require('svgo'),
-    svgo = new SVGO({
-        plugins: [{
-            sortDefsChildren: false
-        }]
-    }),
+    {optimize, extendDefaultPlugins} = require('svgo'),
     TEMPLATE = dot.template(fs.readFileSync(path.join(__dirname, 'templates', 'v2.svg'), 'utf-8')),
     COLOR_REGEX             = /^[0-9a-f]{6}$/i,
     STROKE_REGEX            = /^s\{(.+?)\}$/i,
@@ -43,29 +38,26 @@ function getColorCode(input) {
 }
 
 function sectionsToData(sections) {
-    var badgeData = {
+    const badgeData = {
             width:      0,
             height:     0,
             sections:   [],
         };
     sections.forEach(function(section, s) {
-        var sectionData = {
-                x:      0,
-                width:  0,
-                lines:  [],
-            },
-            sectionHeight,
-            text,
-            lines;
+        const sectionData = {
+            x:      0,
+            width:  0,
+            lines:  [],
+        };
         if (! Array.isArray(section)) {
             section = [ section ];
         }
-        text = section.shift();
+        const text = section.shift();
         sectionData.x = badgeData.width;
         sectionData.color = (s === 0 ? DEFAULT_COLOR_FIRST : DEFAULT_COLOR_REST);
         section.forEach(function(attribute) {
             // stroke attribute `s{color}` as CSS color or color code in hex
-            var strokeAttribute = STROKE_REGEX.exec(attribute);
+            const strokeAttribute = STROKE_REGEX.exec(attribute);
             if (strokeAttribute) {
                 sectionData.stroke = getColorCode(strokeAttribute[1]) || null;
             }
@@ -77,22 +69,21 @@ function sectionsToData(sections) {
             // FUTURE -- text alignment `a{align}` lmr (only matters when multiline)
             // FUTURE -- font `f{font}` mainly for monospace (`fm`)
         });
-        lines = text.split('\n');
+        const lines = text.split('\n');
         lines.forEach(function(line, l) {
-            var lineData = {
-                    x:      0,
-                    y:      0,
-                    text:   line,
-                },
-                lineWidth;
-            lineWidth = (2 * PAD_X) + utils.textWidth(lineData.text, DEFAULT_LETTER_WIDTH);
+            const lineData = {
+                x:      0,
+                y:      0,
+                text:   line,
+            };
+            const lineWidth = (2 * PAD_X) + utils.textWidth(lineData.text, DEFAULT_LETTER_WIDTH);
             lineData.x = badgeData.width + PAD_X;
             lineData.y = (LINE_HEIGHT * l) + PAD_Y + LINE_HEIGHT - DECENDER_HEIGHT;
             sectionData.lines.push(lineData);
             sectionData.width = Math.max(sectionData.width, lineWidth);
         });
         badgeData.sections.push(sectionData);
-        sectionHeight = (2 * PAD_Y) + (lines.length * LINE_HEIGHT);
+        const sectionHeight = (2 * PAD_Y) + (lines.length * LINE_HEIGHT);
         badgeData.height = Math.max(badgeData.height, sectionHeight);
         badgeData.width += sectionData.width;
     });
@@ -100,12 +91,20 @@ function sectionsToData(sections) {
 }
 
 
-module.exports = function badge_v2(sections, callback) {
-    var raw = TEMPLATE(sectionsToData(sections));
-    return svgo.optimize(raw).then(function(optimized) {
-        if (callback) callback(undefined, optimized.data);
-        return optimized.data;
+module.exports = async function badge_v2(sections, callback) {
+    const raw = TEMPLATE(sectionsToData(sections))
+        // Due to https://github.com/svg/svgo/issues/1498
+        .replace(/&#(x3c|60);/gi, '&lt;')
+        .replace(/&#(x26|38);/gi, '&amp;');
+
+    const optimized = optimize(raw, {
+        plugins: extendDefaultPlugins([{
+            name: 'sortDefsChildren',
+            active: false
+        }])
     });
+    if (callback) callback(undefined, optimized.data);
+    return optimized.data;
 };
 
 
